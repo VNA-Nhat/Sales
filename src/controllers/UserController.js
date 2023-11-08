@@ -28,7 +28,6 @@ const createUser = async(req, res) => {
         return res.status(404).json({
             message: e
         })
-        // res.json(e)
     }
 }
 
