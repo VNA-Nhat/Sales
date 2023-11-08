@@ -4,7 +4,7 @@ const UserService = require("../service/UserService")
 const createUser = async(req, res) => {
     try {
         const {name, email, password, confirmPassword, phone} =req.body
-        const reg = /^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/
+        const reg = /^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/ // phuong thuc xac thuc email don gian
         const isCheckemail = reg.test(email)
         if (!name || !email || !password || !confirmPassword || !phone) {
             return res.status(200).json({
