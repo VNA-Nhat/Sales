@@ -50,7 +50,6 @@ const loginUser = (userLoign) => {
                 })
             }
             const comparePass = bcrypt.compareSync(password, checkUser.password)
-            // console.log('comparePass', comparePass)
            
             if (!comparePass){
                 resolve({
