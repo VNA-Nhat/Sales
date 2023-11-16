@@ -86,31 +86,14 @@ const updateUser = (id, data) => {
                 id: id
             })
             console.log('checkUser',checkUser)
-            // if(checkUser === null) {
-            //     resolve({
-            //         status: 'OK',
-            //         message: 'The user is not defined'
-            //     })
-            // }
-            // const comparePass = bcrypt.compareSync(password, checkUser.password)
-            // // console.log('comparePass', comparePass)
-           
-            // if (!comparePass){
-            //     resolve({
-            //         status: 'OK',
-            //         message: 'The password of user is incorrect'
-            //     })
-            // }
-
-            // const access_token = await generallAccessToken({
-            //     id: checkUser._id,
-            //     isAdmin: checkUser.isAdmin
-            // })
-
-            // const refresh_token = await generallRefreshToken({
-            //     id: checkUser.id,
-            //     isAdmin: checkUser.isAdmin
-            // }) 
+            if(checkUser === null) {
+                resolve({
+                    status: 'OK',
+                    message: 'The user is not defined'
+                })
+            }
+            const updateUser = await User.findByIdAndUpdate(id, data);
+            console.log('updateUser', updateUser);
             resolve({
                 status: 'OK',
                 message: 'SUCCESS',

@@ -62,27 +62,7 @@ const loginUser = async(req, res) => {
 }
 
 const updateUser = async(req, res) => {
-    try {
-        // const {name, email, password, confirmPassword, phone} =req.body
-        // const reg = /^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/
-        // const isCheckemail = reg.test(email)
-        // if (!name || !email || !password || !confirmPassword || !phone) {
-        //     return res.status(200).json({
-        //         status: 'ERR',
-        //         message: 'The input is required'
-        //     })
-        // }else if(!isCheckemail) {
-        //     return res.status(200).json({
-        //         status: 'ERR',
-        //         message: 'The input is email'
-        //     })
-        // }else if(password !== confirmPassword) {
-        //     return res.status(200).json({
-        //         status: 'ERR',
-        //         message: 'The password is equal confirmPassword'
-        //     })
-        // }
-        
+    try {    
         const userId = req.params.id;
         const data = req.body
         if (!userId) {
