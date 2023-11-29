@@ -1,11 +1,11 @@
-const UserService = require("../service/UserService")
-
+const UserService = require("../service/UserService") // goi den user service
 
 const createUser = async(req, res) => {
     try {
+        console.log(req.body);
         const {name, email, password, confirmPassword, phone} =req.body
         const reg = /^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/ // phuong thuc xac thuc email don gian
-        const isCheckemail = reg.test(email)
+        const isCheckemail = reg.test(email) // kiem tra email dung cu phap
         if (!name || !email || !password || !confirmPassword || !phone) {
             return res.status(200).json({
                 status: 'ERR',
@@ -33,23 +33,24 @@ const createUser = async(req, res) => {
 
 const loginUser = async(req, res) => {
     try {
-        const {name, email, password, confirmPassword, phone} =req.body
-        const reg = /^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/
+        const {email, password, confirmPassword} =req.body
+        const reg = /^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/ // validate email addresses
         const isCheckemail = reg.test(email)
-        if (!name || !email || !password || !confirmPassword || !phone) {
+        if (!email || !password || confirmPassword) {
             return res.status(200).json({
                 status: 'ERR',
-                message: 'The input is required'
+                message: 'Email or password is incorrect'
             })
         }else if(!isCheckemail) {
             return res.status(200).json({
                 status: 'ERR',
-                message: 'The input is email'
+                message: 'Incorrect email'
             })
-        }else if(password !== confirmPassword) {
+        }
+        else if(password !== confirmPassword) {
             return res.status(200).json({
                 status: 'ERR',
-                message: 'The password is equal confirmPassword'
+                message: 'Incorrect password'
             })
         }
         const response = await UserService.loginUser(req.body)
@@ -62,16 +63,10 @@ const loginUser = async(req, res) => {
 }
 
 const updateUser = async(req, res) => {
-    try {    
+    try {
         const userId = req.params.id;
-        const data = req.body
-        if (!userId) {
-            return res.status(200).json({
-                status: 'ERR',
-                message: 'Please input User Id'
-            })
-        }
-        const response = await UserService.updateUser(userId, data)
+        console.log('userId', userId); 
+        const response = await UserService.loginUser(req.body)
         return res.status(200).json(response)
     } catch(e) {
         return res.status(404).json({

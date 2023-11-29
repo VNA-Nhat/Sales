@@ -5,7 +5,7 @@ dotenv.config();
 const generallAccessToken= async(payload) => {
     console.log('payload', payload)
     const access_token = jwt.sign({payload}, 
-    process.env.ACCESS_TOKEN, {expiresIn: '5 minute'}) // xét thời gian xác thực
+    process.env.ACCESS_TOKEN, {expiresIn: '3h'}) // xét thời gian xác thực
     return access_token
 };
 

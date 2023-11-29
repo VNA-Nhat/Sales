@@ -1,6 +1,6 @@
-const User = require("../models/Usermodel")
-const bcrypt = require("bcrypt")
-const { generallAccessToken, generallRefreshToken } = require("./JwtServer")
+const User = require("../models/Usermodel");
+const bcrypt = require("bcrypt");
+const { generallAccessToken, generallRefreshToken } = require("./JwtServer");
 
 const createUser = (newUser) => {
     return new Promise(async(resolve, reject) => {
@@ -36,14 +36,14 @@ const createUser = (newUser) => {
     })
 }
 
-const loginUser = (userLoign) => {
+const loginUser = (userLogin) => {
     return new Promise(async(resolve, reject) => {
-        const {name, email, password, confirmPassword, phone} = userLoign
+        const {email, password} = userLogin
         try {
             const checkUser = await User.findOne({
                 email: email
             })
-            if(checkUser === null) {
+            if(checkUser === null) { //email kh ton tai
                 resolve({
                     status: 'OK',
                     message: 'The user is not defined'
@@ -67,6 +67,7 @@ const loginUser = (userLoign) => {
                 id: checkUser.id,
                 isAdmin: checkUser.isAdmin
             })
+            console.log('access_token', access_token)
             resolve({
                 status: 'OK',
                 message: 'SUCCESS',
@@ -86,14 +87,14 @@ const updateUser = (id, data) => {
                 id: id
             })
             console.log('checkUser',checkUser)
-            if(checkUser === null) {
-                resolve({
-                    status: 'OK',
-                    message: 'The user is not defined'
-                })
-            }
-            const updateUser = await User.findByIdAndUpdate(id, data);
-            console.log('updateUser', updateUser);
+    //     //     if(checkUser === null) {
+    //     //         resolve({
+    //     //             status: 'OK',
+    //     //             message: 'The user is not defined'
+    //     //         })
+    //     //     }
+    //     //     const updateUser = await User.findByIdAndUpdate(id, data);
+    //     //     console.log('updateUser', updateUser);
             resolve({
                 status: 'OK',
                 message: 'SUCCESS',
