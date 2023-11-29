@@ -50,7 +50,7 @@ const loginUser = (userLogin) => {
                 })
             }
             const comparePass = bcrypt.compareSync(password, checkUser.password)
-           
+
             if (!comparePass){
                 resolve({
                     status: 'OK',
@@ -59,15 +59,15 @@ const loginUser = (userLogin) => {
             }
 
             const refresh_token = await generallRefreshToken({
-                id: checkUser._id,
+                id: checkUser._id, //
                 isAdmin: checkUser.isAdmin
             })
 
             const access_token = await generallAccessToken({
-                id: checkUser.id,
+                id: checkUser.id, //
                 isAdmin: checkUser.isAdmin
             })
-            console.log('access_token', access_token)
+
             resolve({
                 status: 'OK',
                 message: 'SUCCESS',
@@ -84,7 +84,7 @@ const updateUser = (id, data) => {
     return new Promise(async(resolve, reject) => {
         try {
             const checkUser = await User.findOne({
-                id: id
+                _id: id
             })
             console.log('checkUser',checkUser)
     //     //     if(checkUser === null) {

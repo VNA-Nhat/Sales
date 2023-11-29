@@ -6,7 +6,6 @@ const userController = require('../controllers/UserController'); // goi den cont
 router.post('/register', userController.createUser)
 //Login
 router.post('/login', userController.loginUser)
-router.get('/login', userController.loginUser)
 //Update
 router.put('/update-user/:id',userController.updateUser)
 
