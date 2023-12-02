@@ -1,4 +1,4 @@
-const mongoose = require('mongoose')
+const mongoose = require('mongoose');
 const userSchema = new mongoose.Schema(
     {
         name: {type: String, require: true},
@@ -6,6 +6,9 @@ const userSchema = new mongoose.Schema(
         isAdmin: {type: Boolean, default: false, require: true},
         password: {type: String, require: true},
         phone: { type: Number},
+        address: { type: String },
+        // avatar: { type: String },
+        city: {type: String},
         access_token: {type: String, require: true},
         refresh_token: {type: String, require: true},
     },

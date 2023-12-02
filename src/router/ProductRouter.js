@@ -1,8 +1,14 @@
 const express = require("express");
-const router = express.Router();
-const ProductCtrl = require("../models/ProductModel");
+const router = express.Router()
+const ProductController = require('../controllers/ProductController');
+const { authMiddleWare } = require("../service/JwtService");
 
-//Product
-router.post('/product',ProductCtrl.createProduct)
-router.delete('/product/:id',ProductCtrl.deleteProduct)
-router.put('/product/:id', ProductCtrl.updateProduct);
+router.post('/product', ProductController.createProduct)
+router.put('/product-update/:id', authMiddleWare, ProductController.updateProduct)
+router.get('/get-details/:id', ProductController.getDetailsProduct)
+router.delete('/delete/:id', authMiddleWare, ProductController.deleteProduct)
+router.get('/get-all', ProductController.getAllProduct)
+router.post('/delete-many', authMiddleWare, ProductController.deleteMany)
+router.get('/get-all-type', ProductController.getAllType)
+
+module.exports = router
