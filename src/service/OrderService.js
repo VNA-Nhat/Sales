@@ -3,8 +3,9 @@ const Product = require("../models/ProductModel")
 const EmailService = require("../service/EmailService")
 
 const createOrder = (newOrder) => {
+    
     return new Promise(async (resolve, reject) => {
-        const { orderItems,paymentMethod, itemsPrice, shippingPrice, totalPrice, fullName, address, city, phone,user, isPaid, paidAt,email } = newOrder
+        const { orderItems,paymentMethod, itemsPrice, shippingPrice, totalPrice, fullName, address, city, phone,user, isPaid, paidAt, email } = newOrder
         try {
             const promises = orderItems.map(async (order) => {
                 const productData = await Product.findOneAndUpdate(
@@ -67,7 +68,6 @@ const createOrder = (newOrder) => {
                 }
             }
         } catch (e) {
-        //   console.log('e', e)
             reject(e)
         }
     })
@@ -106,7 +106,6 @@ const getAllOrderDetails = (id) => {
                 data: order
             })
         } catch (e) {
-            // console.log('e', e)
             reject(e)
         }
     })
@@ -131,7 +130,6 @@ const getOrderDetails = (id) => {
                 data: order
             })
         } catch (e) {
-            // console.log('e', e)
             reject(e)
         }
     })
@@ -140,7 +138,7 @@ const getOrderDetails = (id) => {
 const cancelOrderDetails = (id, data) => {
     return new Promise(async (resolve, reject) => {
         try {
-            let order = []
+            let order = []  //
             const promises = data.map(async (order) => {
                 const productData = await Product.findOneAndUpdate(
                     {

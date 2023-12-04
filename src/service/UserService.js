@@ -16,7 +16,7 @@ const createUser = (newUser) => {
                 })
             }
             //Ma hoa mat khau
-            const hash = bcrypt.hashSync(password, 10) //saltRounds: mã hóa mật khẩu: 10 ký tự
+            const hash = bcrypt.hashSync(password, 10) //saltRounds: mã hóa mật khẩu: 10 ký tự: độ dài mã hóa
             const createUser = await User.create({
                 name, 
                 email, 
@@ -59,12 +59,12 @@ const loginUser = (userLogin) => {
             }
 
             const access_token = await generallAccessToken({
-                id: checkUser.id, //
+                id: checkUser.id, 
                 isAdmin: checkUser.isAdmin
             })
 
             const refresh_token = await generallRefreshToken({
-                id: checkUser._id, //
+                id: checkUser._id, 
                 isAdmin: checkUser.isAdmin
             })
 
@@ -80,30 +80,30 @@ const loginUser = (userLogin) => {
     })
 }
 
-const updateUser = (id, data) => {
-    return new Promise(async(resolve, reject) => {
-        try {
-            const checkUser = await User.findOne({
-                _id: id
-            })
-            if(checkUser === null) {
-                resolve({
-                    status: 'ERR',
-                    message: 'The user is not defined'
-                })
-            }
+// const updateUser = (id, data) => {
+//     return new Promise(async(resolve, reject) => {
+//         try {
+//             const checkUser = await User.findOne({
+//                 _id: id
+//             })
+//             if(checkUser === null) {
+//                 resolve({
+//                     status: 'ERR',
+//                     message: 'The user is not defined'
+//                 })
+//             }
 
-            const updateUser = await User.findByIdAndUpdate(id, data, {new: true}); // cập nhật user
-            resolve({
-                status: 'OK',
-                message: 'SUCCESS',
-                data: updateUser
-            })
-        } catch (e) {
-            reject(e)
-        };
-    })
-}
+//             const updateUser = await User.findByIdAndUpdate(id, data, {new: true}); // cập nhật user
+//             resolve({
+//                 status: 'OK',
+//                 message: 'SUCCESS',
+//                 data: updateUser
+//             })
+//         } catch (e) {
+//             reject(e)
+//         };
+//     })
+// }
 
 const deleteUser = (id) => {
     return new Promise(async(resolve, reject) => {
@@ -143,9 +143,9 @@ const deleteManyUser = (ids) => {
 }
 
 const getAllUser = () => {
-    return new Promise(async(resolve, reject) => {
+    return new Promise(async(resolve, reject) => { //xử lý thành công và xử lý lỗi của Promise.
         try {
-            const allUser = await User.find().sort({createdAt: -1, updatedAt: -1}); // cập nhật user
+            const allUser = await User.find().sort({createdAt: -1, updatedAt: -1}); //await User.find() đợi tìm đc và trả về alluser sau đó sắp xếp theo time createdAt và updatedAt
             resolve({
                 status: 'OK',
                 message: 'Get all users success',
@@ -171,7 +171,7 @@ const getDetailUser = (id) => {
             }
             resolve({
                 status: 'OK',
-                message: 'Finded user success',
+                message: 'Got user success',
                 data: user
             })
         } catch (e) {
@@ -180,5 +180,5 @@ const getDetailUser = (id) => {
     })
 }
 
-
-module.exports = {createUser, loginUser, updateUser, deleteUser, getAllUser, getDetailUser, deleteManyUser};
+module.exports = {createUser, loginUser, deleteUser, getAllUser, getDetailUser, deleteManyUser};
+//updateUser

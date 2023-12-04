@@ -1,19 +1,19 @@
-const nodemailer = require('nodemailer')
+const nodemailer = require('nodemailer');
 const dotenv = require('dotenv');
 dotenv.config()
 var inlineBase64 = require('nodemailer-plugin-inline-base64');
 
-const sendEmailCreateOrder = async (email,orderItems) => {
-  let transporter = nodemailer.createTransport({
+const sendEmailCreateOrder = async (email, orderItems) => { // tao ham nhan email va ds dat hang
+  let transporter = nodemailer.createTransport({ //cấu hình thông tin kết nối đến máy chủ SMTP 
     host: "smtp.gmail.com",
-    port: 465,
+    port: 465, //port 465 thường được sử dụng cho SSL/TLS.
     secure: true, // true for 465, false for other ports
     auth: {
-      user: process.env.MAIL_ACCOUNT, // generated ethereal user
-      pass: process.env.MAIL_PASSWORD, // generated ethereal password
+      user: process.env.MAIL_ACCOUNT, // generated gmail user
+      pass: process.env.MAIL_PASSWORD, // generated gmail password
     },
   });
-  transporter.use('compile', inlineBase64({cidPrefix: 'somePrefix_'}));
+  transporter.use('compile', inlineBase64({cidPrefix: 'somePrefix_'})); // nhúng hình ảnh vào email bằng cách thêm tiền tố cidPrefix: 'somePrefix_
 
   let listItem = '';
   const attachImage = []

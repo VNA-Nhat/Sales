@@ -1,29 +1,16 @@
-const ProductService = require('../service/ProductService')
-const path = require('path');
-const jimp = require('jimp');
+const ProductService = require('../service/ProductService');
 
 const createProduct = async (req, res) => {
     try {
-        // const { name, image, type, countInStock, price, rating, description, discount } = req.body
-        // if (!name || !image || !type || !countInStock || !price || !rating || !discount) {
-        //     return res.status(200).json({
-        //         status: 'ERR',
-        //         message: 'The input is required'
-        //     })
-        // }
-        // const response = await ProductService.createProduct(req.body)
-        const newProduct = new Product(req.body);
-        // Kiểm tra xem có tệp được tải lên hay không
-        if (req.file) {
-            // Điều chỉnh kích thước ảnh
-            const image = await jimp.read(req.file.buffer);
-            image.resize(500, 500);
-            await image.writeAsync(path.join(`public/images/imageswatch/${req.file.filename}.jpeg`));
-            // Lưu đường dẫn hình ảnh vào đối tượng sản phẩm
-            newProduct.image = `/images/imageswatch/${req.file.filename}.jpeg`;
+        const { name, image, type, countInStock, price, rating, discount } = req.body
+        if (!name || !image || !type || !countInStock || !price || !rating || !discount) {
+            return res.status(200).json({
+                status: 'ERR',
+                message: 'The input is required'
+            })
         }
-        const savedProduct = await newProduct.save();
-        return res.status(200).json(savedProduct)
+        const response = await ProductService.createProduct(req.body)
+        return res.status(200).json(response)
     } catch (e) {
         return res.status(404).json({
             message: e

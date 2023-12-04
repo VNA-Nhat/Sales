@@ -1,5 +1,5 @@
 const UserService = require("../service/UserService"); // goi den user service
-const JwtService = require('../service/JwtService')
+const JwtService = require('../service/JwtService') // gọi đến file jsonweb Service
 
 const createUser = async(req, res) => {
     try {
@@ -34,25 +34,28 @@ const createUser = async(req, res) => {
 const loginUser = async(req, res) => {
     try {
         const {email, password} = req.body
-        const reg = /^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/ // validate email addresses
-        const isCheckemail = reg.test(email)
+        const reg = /^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/ 
+        const isCheckemail = reg.test(email) // validate email addresses
         if (!email || !password) {
             return res.status(200).json({
                 status: 'ERR',
                 message: 'Email or password is incorrect'
             })
-        }else if(!isCheckemail) {
+        }else if(!isCheckemail) { // Kiểm tra định dạng đúng của email
             return res.status(200).json({
                 status: 'ERR',
                 message: 'Incorrect email'
             })
         }
+        // Gọi hàm loginUser từ UserService với phần thân yêu cầu
         const response = await UserService.loginUser(req.body)
-        const { refresh_token, ...newReponse } = response
+        // Phân rã đối tượng phản hồi để tách refresh_token
+        const { refresh_token, ...newReponse } = response 
+        //Đặt cookie có tên 'refresh_token' với refresh_token nhận được
         res.cookie('refresh_token', refresh_token, {
-            httpOnly: true,
-            secure: false,
-            sameSite: 'strict',
+            httpOnly: true, //Chỉ lấy đc cookie bằng cách truy cập thông qua HTTP, kh thể lấy qua js
+            secure: false, 
+            sameSite: 'strict', //cookie chỉ được gửi khi yêu cầu đến web cùng một nguồn.
             path: '/',
         })
         return res.status(200).json({...newReponse, refresh_token})
@@ -63,29 +66,28 @@ const loginUser = async(req, res) => {
     }
 }
 
-const updateUser = async(req, res) => {
-    try {
-        const userId = req.params.id;
-        const data = req.body;
-        if (!userId){
-            return res.status(200).json({
-                status: 'ERR',
-                message: 'The userId is required'
-            })
-        }
-        const response = await UserService.updateUser(userId, data) //nếu có Id thì sẽ đẩy qua userService
-        return res.status(200).json(response)
-    } catch(e) {
-        return res.status(404).json({
-            message: e
-        })
-    }
-}
+// const updateUser = async(req, res) => {
+//     try {
+//         const userId = req.params.id;
+//         const data = req.body;
+//         if (!userId){
+//             return res.status(200).json({
+//                 status: 'ERR',
+//                 message: 'The userId is required'
+//             })
+//         }
+//         const response = await UserService.updateUser(userId, data) //nếu có Id thì sẽ đẩy qua userService
+//         return res.status(200).json(response)
+//     } catch(e) {
+//         return res.status(404).json({
+//             message: e
+//         })
+//     }
+// }
 
 const deleteUser = async(req, res) => {
     try {
         const userId = req.params.id;
-        // const token = req.headers;
         if (!userId){
             return res.status(200).json({
                 status: 'ERR',
@@ -150,7 +152,7 @@ const getDetailUser = async(req, res) => {
 
 const RefreshToken = async(req, res) => {
     try {
-        const token = req.headers.token.split(' ')[1]
+        let token = req.headers.token.split(' ')[1]
         if (!token){
             return res.status(200).json({
                 status: 'ERR',
@@ -180,4 +182,6 @@ const logoutUser = async (req, res) => {
     }
 }
 
-module.exports = {createUser, loginUser, updateUser, deleteUser, deleteMany, getAllUser, getDetailUser, RefreshToken, logoutUser}
+module.exports = {createUser, loginUser, deleteUser, deleteMany, getAllUser, getDetailUser, RefreshToken, logoutUser}
+    // updateUser, 
+    
